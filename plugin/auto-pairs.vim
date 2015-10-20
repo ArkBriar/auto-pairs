@@ -197,8 +197,9 @@ function! AutoPairsInsert(key)
     endif
   endif
 
-  " Ignore auto close if set and current character is not whitespace
-  if g:AutoPairsOnlyWhitespace && current_char =~ '\v\S'
+  " Ignore auto close if set and current character is not whitespace 
+  " And is not open && close! like input '[' when (|) will get ([|) 
+  if g:AutoPairsOnlyWhitespace && current_char =~ '\v\S' && (current_char == open || current_char == close)
       return a:key
   endif
 
