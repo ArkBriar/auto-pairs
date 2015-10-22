@@ -73,6 +73,10 @@ if !exists('g:AutoPairsOnlyWhitespace')
     let g:AutoPairsOnlyWhitespace = 0
 end
 
+if !exists('g:AutoPairsWhenNotOpen')
+    let g:AutoPairsWhenNotOpen = 1
+end
+
 " Will auto generated {']' => '[', ..., '}' => '{'}in initialize.
 let g:AutoPairsClosedPairs = {}
 
@@ -198,8 +202,11 @@ function! AutoPairsInsert(key)
   endif
 
   " Ignore auto close if set and current character is not whitespace 
-  " And is not open && close! like input '[' when (|) will get ([|) 
-  if g:AutoPairsOnlyWhitespace && current_char =~ '\v\S' && (current_char == open || current_char == close)
+  if g:AutoPairsOnlyWhitespace && current_char =~ '\v\S'
+      return a:key
+  endif
+
+  if g:AutoPairsWhenNotOpen && current_char == open
       return a:key
   endif
 
